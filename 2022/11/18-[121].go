@@ -47,7 +47,6 @@ func maxProfit(prices []int) int {
 		mins = min(mins, prices[i])
 		maxs = max(maxs, prices[i]-mins)
 	}
-
 	return maxs
 
 }
