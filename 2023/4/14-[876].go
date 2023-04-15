@@ -78,6 +78,10 @@ func middleNode(head *ListNode) *ListNode {
     return slow
 }
 
+slow一次走一步，fast一次走slow的两倍，走两步  （即fast的速度是slow的两倍，相同时间内fast的路程是slow的两倍。）
+所以当fast走终点时，slow走到中点
+
+
 作者：灵茶山艾府
 链接：https://leetcode.cn/problems/middle-of-the-linked-list/solutions/1999265/mei-xiang-ming-bai-yi-ge-shi-pin-jiang-t-wzwm/
 来源：力扣（LeetCode）
