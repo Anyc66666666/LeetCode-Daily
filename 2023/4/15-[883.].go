@@ -65,40 +65,48 @@ package leetcode
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func projectionArea(grid [][]int) int {
-	//y:=len(grid)
-	//x:=len(grid[0])
-	//s1:=x*y
-	//var s2,s3 int
-	//max82:=make([]int,x,x)
-	//
-	//for _,rol:=range grid{
-	//	var max81 int
-	//	for k,col:=range rol{
-	//		max81=max88(max81,col)
-	//		max82[k]=max88(max82[k],col)
-	//
-	//	}
-	//
-	//	s2=s2+max81
-	//}
-	//for _,v:=range max82{
-	//	s3+=v
-	//}
-	//return s1+s2+s3
-	var xyArea, yzArea, zxArea int
-	for i, row := range grid {
-		yzHeight, zxHeight := 0, 0
-		for j, v := range row {
-			if v > 0 {
-				xyArea++
+	x := len(grid)
+	y := len(grid[0])
+	s1 := x * y
+	var s2, s3 int
+	max82 := make([]int, y, y)
+
+	for _, rol := range grid {
+		var max81 int
+		for k, col := range rol {
+			max81 = max8(max81, col)
+			max82[k] = max8(max82[k], col)
+
+			///  0 <= grid[i][j] <= 50  这一步忽略了，忘记考虑高为0的情况
+			if col == 0 { //// 忽略了这一步，当高为0时，即使是（1，1，0），表面上底面积是1，但实际上这一块小正方体不存在，所以没有底面积
+				s1 = s1 - 1
 			}
-			yzHeight = max8(yzHeight, grid[j][i])
-			zxHeight = max8(zxHeight, v)
+
 		}
-		yzArea += yzHeight
-		zxArea += zxHeight
+
+		s2 = s2 + max81
 	}
-	return xyArea + yzArea + zxArea
+	for _, v := range max82 {
+		s3 += v
+	}
+	return s1 + s2 + s3
+
+	//--------------------------------------------------
+	//var xyArea, yzArea, zxArea int
+	//for i, row := range grid {
+	//	yzHeight, zxHeight := 0, 0
+	//	for j, v := range row {
+	//		if v > 0 {// 忽略了这一步，当高为0时，即使是（1，1，0），表面上底面积是1，但实际上这一块小正方体不存在，所以没有底面积
+	//			xyArea++
+	//		}
+	//		yzHeight = max8(yzHeight, grid[j][i])
+	//		zxHeight = max8(zxHeight, v)
+	//	}
+	//	yzArea += yzHeight
+	//	zxArea += zxHeight
+	//}
+	//return xyArea + yzArea + zxArea
+	//--------------------------------------------------
 
 }
 func max8(a, b int) int {
