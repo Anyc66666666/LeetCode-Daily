@@ -51,25 +51,30 @@ package leetcode
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func canCompleteCircuit(gas []int, cost []int) int {
-	for i, n := 0, len(gas); i < n; {
-		sumOfGas, sumOfCost, cnt := 0, 0, 0
-		for cnt < n {
-			j := (i + cnt) % n
-			sumOfGas += gas[j]
-			sumOfCost += cost[j]
-			if sumOfCost > sumOfGas {
-				break
+	// 1 2 3 4 5
+	// 3 4 5 1 2
+	// -2 -2 -2 3 3
+	// -2 3 -2 -2 3
+	// 正数的左边 min
+	var a int
+	var min int
+	var sum int
+	for i := 0; i < len(gas); i++ {
+		gas[i] -= cost[i]
+		sum = sum + gas[i]
+		if gas[i] > 0 {
+			x := sum - gas[i]
+			if x < min {
+				min = x
+				a = i
 			}
-			cnt++
-		}
-		if cnt == n {
-			return i
-		} else {
-			i += cnt + 1
 		}
 	}
-	return -1
+	if sum < 0 {
+		return -1
+	}
 
+	return a
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
