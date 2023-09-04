@@ -47,58 +47,34 @@ package leetcode
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func findTargetSumWays(nums []int, target int) int {
-	//var sum int
-	//for _,v:=range nums{
-	//	sum+=v
-	//}
-	//x:=(sum+target)/2
-	//fmt.Println(x)
-	//
-	//var a,b int
-	//var dfs func(now int)
-	//dfs= func(now int) {
-	//	if a==x{
-	//		b++
-	//		return
-	//	}
-	//
-	//	for i:=now;i<len(nums);i++{
-	//		a=a+nums[i]
-	//		fmt.Println(a)
-	//		dfs(now+1)
-	//		a=a-nums[i]
-	//	}
-	//
-	//}
-	//dfs(0)
-	//return b
-
-	var count int
-	var backtrack func(int, int)
-	backtrack = func(index, sum int) {
-		if index == len(nums) {
-			if sum == target {
-				count++
-			}
-			return
-		}
-		backtrack(index+1, sum+nums[index])
-		backtrack(index+1, sum-nums[index])
+	var sum int
+	for _, v := range nums {
+		sum += v
 	}
-	backtrack(0, 0)
-	return count
-	//
-	//作者：力扣官方题解
-	//链接：https://leetcode.cn/problems/target-sum/solutions/816361/mu-biao-he-by-leetcode-solution-o0cp/
-	//来源：力扣（LeetCode）
-	//著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
+	if sum < abs(target) {
+		return 0
+	}
+	if (sum+target)%2 == 1 {
+		return 0
+	}
+
+	x := (sum + target) / 2
+	//fmt.Println(x)
+	dp := make([]int, x+1)
+	dp[0] = 1
+	for i := 0; i < len(nums); i++ {
+		for j := x; j >= nums[i]; j-- {
+			dp[j] += dp[j-nums[i]]
+		}
+	}
+	return dp[x]
 }
-func max4(a, b int) int {
-	if a > b {
+func abs(a int) int {
+	if a > 0 {
 		return a
 	}
-	return b
+	return -a
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
