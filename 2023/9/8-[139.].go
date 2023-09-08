@@ -57,7 +57,7 @@ func wordBreak(s string, wordDict []string) bool {
 			}
 		}
 	}
-	return dp[len(s)] >= 0
+	return dp[len(s)] > 0
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
