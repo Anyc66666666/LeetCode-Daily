@@ -42,7 +42,10 @@ package leetcode
 // Related Topics 数组 动态规划 👍 1447 👎 0
 
 // leetcode submit region begin(Prohibit modification and deletion)
-func rob(nums []int) int {
+func rob2(nums []int) int {
+	if len(nums) < 2 {
+		return nums[0]
+	}
 	var a, b []int
 	a = append(a, nums[1:]...)
 	b = append(b, nums[:len(nums)-1]...)
@@ -51,18 +54,15 @@ func rob(nums []int) int {
 	dp1 := make([]int, length+1)
 	dp2 := make([]int, length+1)
 	dp1[1] = a[0]
-	dp2[1] = a[0]
+	dp2[1] = b[0]
 	for i := 2; i <= length; i++ {
 		dp1[i] = max7(dp1[i-1], dp1[i-2]+a[i-1])
 	}
-
 	for i := 2; i <= length; i++ {
-
-		dp2[i] = max7(dp2[i-1], dp2[i-2]+a[i-1])
+		dp2[i] = max7(dp2[i-1], dp2[i-2]+b[i-1])
 	}
 
 	return max7(dp1[length], dp2[length])
-
 }
 func max7(a, b int) int {
 	if a > b {
