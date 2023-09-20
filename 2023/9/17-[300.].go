@@ -48,30 +48,47 @@ package leetcode
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func lengthOfLIS(nums []int) int {
-	var ans int
-	n := len(nums)
-	memo := make([]int, n)
-	var dfs func(int) int
-	dfs = func(i int) int {
-		p := &memo[i]
-		if *p > 0 {
-			return *p
-		}
-		res := 0
-		for j, x := range nums[:i] {
-			if x < nums[i] {
-				res = max7(res, dfs(j))
+	//var ans int
+	//n := len(nums)
+	//memo := make([]int, n)
+	//var dfs func(int) int
+	//dfs = func(i int) int {
+	//	p := &memo[i]
+	//	if *p > 0 {
+	//		return *p
+	//	}
+	//	res := 0
+	//	for j, x := range nums[:i] {
+	//		if x < nums[i] {
+	//			res = max7(res, dfs(j))
+	//		}
+	//	}
+	//	res++
+	//	*p = res
+	//	return res
+	//}
+	//
+	//for i := 0; i < n; i++ {
+	//	ans = max7(ans, dfs(i))
+	//}
+	//return ans
+
+	//--------
+
+	dp := make([]int, len(nums)) //dp[i] 以 nums[i] 结尾的最长升序列长度
+	dp[0] = 1
+	var length int = 1
+	for i := 1; i < len(nums); i++ {
+		for a := 0; a < i; a++ {
+			if nums[i] > nums[a] {
+				dp[i] = max71(dp[i], dp[a])
 			}
 		}
-		res++
-		*p = res
-		return res
+		dp[i]++
+		length = max71(length, dp[i])
 	}
 
-	for i := 0; i < n; i++ {
-		ans = max7(ans, dfs(i))
-	}
-	return ans
+	return length
 }
 func max71(a, b int) int {
 	if a < b {
