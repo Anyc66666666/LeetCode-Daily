@@ -32,63 +32,49 @@ package leetcode
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func findLength(nums1 []int, nums2 []int) int {
-	//var length int
-	//for i:=1;i<len(nums1)+len(nums2);i++{
-	//	if i<=len(nums2){
-	//		le:=0
-	//		for a:=0;a<i;a++{
-	//			if nums2[a]==nums1[len(nums1)-i+a]{
-	//				le++
-	//			}else {
-	//				le=0
-	//			}
-	//		}
-	//		length=max991(length,le)
-	//	}else if i <=len(nums1){
-	//		// 2 3 4 5 6 // 1 2 3
-	//		// 1 2 3         1 2 3
-	//		// 2 3 4 5 6   2 3 4 5 6
-	//		le:=0
-	//		for a:=i-len(nums2);a<len(nums2);a++{
-	//			if nums1[a]==nums2[i-len(nums2)+a]{
-	//				le++
-	//			}else {
-	//				le=0
-	//			}
-	//		}
-	//		length=max991(length,le)
-	//
-	//	}
-	//}
-	//
-	//return length
-
-	n, m := len(nums1), len(B)
-	dp := make([][]int, n+1)
-	for i := 0; i < len(dp); i++ {
-		dp[i] = make([]int, m+1)
+	n, m := len(nums1), len(nums2)
+	ret := 0
+	for i := 0; i < n; i++ {
+		length := min991(m, n-i)
+		maxLen := maxLength(nums1, nums2, i, 0, length)
+		ret = max991(ret, maxLen)
 	}
-	ans := 0
-	for i := n - 1; i >= 0; i-- {
-		for j := m - 1; j >= 0; j-- {
-			if A[i] == B[j] {
-				dp[i][j] = dp[i+1][j+1] + 1
-			} else {
-				dp[i][j] = 0
-			}
-			if ans < dp[i][j] {
-				ans = dp[i][j]
-			}
+	for i := 0; i < n; i++ {
+		length := min991(n, m-i)
+		maxLen := maxLength(nums1, nums2, 0, i, length)
+		ret = max991(ret, maxLen)
+	}
+	return ret
+
+	//我们可以枚举 A 和 B 所有的对齐方式。
+	//对齐的方式有两类：第一类为 A 不变，B 的首元素与 A 中的某个元素对齐；
+	//第二类为 B 不变，A 的首元素与 B 中的某个元素对齐。
+	//对于每一种对齐方式，我们计算它们相对位置相同的重复子数组即可。
+
+}
+func maxLength(a, b []int, addA, addB, length int) int {
+	ret, k := 0, 0
+	for i := 0; i < length; i++ {
+		if a[addA+i] == b[addB+i] {
+			k++
+		} else {
+			k = 0
 		}
+		ret = max991(ret, k)
 	}
-	return ans
-
+	return ret
 }
 func max991(a, b int) int {
 	if a > b {
 		return a
 	}
 	return b
+}
+func min991(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
