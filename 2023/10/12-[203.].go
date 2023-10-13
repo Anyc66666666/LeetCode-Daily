@@ -63,6 +63,16 @@ func removeElements(head *ListNode, val int) *ListNode {
 		m = m.Next
 	}
 	return n.Next
+
+	//if head == nil {
+	//	return head
+	//}
+	//head.Next = removeElements(head.Next, val)
+	//if head.Val == val {
+	//	return head.Next
+	//}
+	//return head
+
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
