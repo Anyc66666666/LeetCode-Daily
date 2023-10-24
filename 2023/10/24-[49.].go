@@ -41,35 +41,52 @@ import "sort"
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func groupAnagrams(strs []string) [][]string {
+	//
+	//l:= make([][26]int,len(strs))
+	//for k,str:=range strs{
+	//	for i:=0;i<len(str);i++{
+	//		l[k][str[i]-'a']++
+	//	}
+	//}
+	//
+	//// 1 22 333 4444
+	//sort.Slice(l, func(i, j int) bool {
+	//	return l[i]==l[j]
+	//})
+	//
+	//var a [][]string
+	//var b []string
+	//for i:=0;i<len(l);i++{
+	//	if i==0{
+	//		b=append(b,strs[i])
+	//		continue
+	//	}
+	//	if l[i]==l[i-1]{
+	//		b=append(b,strs[i])
+	//	}else {
+	//		var tmp []string
+	//		a=append(a,append(tmp,b...))
+	//		b=[]string{strs[i]}
+	//	}
+	//}
+	//return a
+	// todo
 
-	l := make([][26]int, len(strs))
-	for k, str := range strs {
-		for i := 0; i < len(str); i++ {
-			l[k][str[i]-'a']++
-		}
+	mp := make(map[string][]string)
+	for _, str := range strs {
+		s := []byte(str)
+		sort.Slice(s, func(i, j int) bool {
+			return s[i] < s[j]
+		})
+		sortedStr := string(s)
+		mp[sortedStr] = append(mp[sortedStr], str)
 	}
 
-	// 1 22 333 4444
-	sort.Slice(l, func(i, j int) bool {
-		return l[i] == l[j]
-	})
-
-	var a [][]string
-	var b []string
-	for i := 0; i < len(l); i++ {
-		if i == 0 {
-			b = append(b, strs[i])
-			continue
-		}
-		if l[i] == l[i-1] {
-			b = append(b, strs[i])
-		} else {
-			var tmp []string
-			a = append(a, append(tmp, b...))
-			b = []string{strs[i]}
-		}
+	ans := make([][]string, 0, len(mp))
+	for _, v := range mp {
+		ans = append(ans, v)
 	}
-	return a
+	return ans
 
 }
 
