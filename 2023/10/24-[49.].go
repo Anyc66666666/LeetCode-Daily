@@ -1,7 +1,5 @@
 package leetcode
 
-import "sort"
-
 //给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
 //
 // 字母异位词 是由重新排列源单词的所有字母得到的一个新单词。
@@ -41,52 +39,35 @@ import "sort"
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func groupAnagrams(strs []string) [][]string {
-	//
-	//l:= make([][26]int,len(strs))
-	//for k,str:=range strs{
-	//	for i:=0;i<len(str);i++{
-	//		l[k][str[i]-'a']++
-	//	}
-	//}
-	//
-	//// 1 22 333 4444
-	//sort.Slice(l, func(i, j int) bool {
-	//	return l[i]==l[j]
-	//})
-	//
-	//var a [][]string
-	//var b []string
-	//for i:=0;i<len(l);i++{
-	//	if i==0{
-	//		b=append(b,strs[i])
-	//		continue
-	//	}
-	//	if l[i]==l[i-1]{
-	//		b=append(b,strs[i])
-	//	}else {
-	//		var tmp []string
-	//		a=append(a,append(tmp,b...))
-	//		b=[]string{strs[i]}
-	//	}
-	//}
-	//return a
-	// todo
-
-	mp := make(map[string][]string)
+	mp := make(map[[26]int][]string)
 	for _, str := range strs {
-		s := []byte(str)
-		sort.Slice(s, func(i, j int) bool {
-			return s[i] < s[j]
-		})
-		sortedStr := string(s)
-		mp[sortedStr] = append(mp[sortedStr], str)
+		cnt := [26]int{}
+		for _, b := range str {
+			cnt[b-'a']++
+		}
+		mp[cnt] = append(mp[cnt], str)
 	}
-
 	ans := make([][]string, 0, len(mp))
 	for _, v := range mp {
 		ans = append(ans, v)
 	}
 	return ans
+
+	//mp:=make(map[string][]string)
+	//for _,str:=range strs{
+	//	s:=[]byte(str)
+	//	sort.Slice(s, func(i, j int) bool {
+	//		return s[i]<s[j]
+	//	})
+	//	sortedStr:=string(s)
+	//	mp[sortedStr]=append(mp[sortedStr],str)
+	//}
+	//
+	//ans:=make([][]string,0,len(mp))
+	//for _,v:=range mp{
+	//	ans=append(ans,v)
+	//}
+	//return ans
 
 }
 
