@@ -42,25 +42,36 @@ package leetcode
  *     Right *TreeNode
  * }
  */
+//
+//type TreeNode struct {
+//	    Val int
+//	    Left *TreeNode
+//	    Right *TreeNode
+//	}
 func minDepth(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	var ans int
-	var dfs func(node *TreeNode, depth int)
-	depth := 0
-	dfs = func(node *TreeNode, depth int) {
-		if node == nil {
-			return
+	var queue []*TreeNode
+	var count []int
+	queue = append(queue, root)
+	count = append(count, 1)
+	for i := 0; i < len(queue); i++ {
+		node := queue[i]
+		depth := count[i]
+		if node.Left == nil && node.Right == nil {
+			return depth
 		}
-		if depth < ans {
-			ans = depth
+		if node.Left != nil {
+			queue = append(queue, node.Left)
+			count = append(count, depth+1)
 		}
-		dfs(node.Left, depth+1)
-		dfs(node.Right, depth+1)
+		if node.Right != nil {
+			queue = append(queue, node.Right)
+			count = append(count, depth+1)
+		}
 	}
-	dfs(root, depth)
-	return ans + 1
+	return 0
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
