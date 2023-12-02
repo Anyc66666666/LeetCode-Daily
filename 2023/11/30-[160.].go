@@ -98,6 +98,11 @@ package leetcode
  *     Next *ListNode
  * }
  */
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 func getIntersectionNode(headA, headB *ListNode) *ListNode {
 	vis := map[*ListNode]bool{}
 	for tmp := headA; tmp != nil; tmp = tmp.Next {

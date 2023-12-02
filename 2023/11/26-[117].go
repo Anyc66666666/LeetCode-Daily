@@ -63,7 +63,7 @@ package leetcode
  * }
  */
 
-func connect(root *Node) *Node {
+func connect1(root *Node) *Node {
 	var dfs func(node *Node, depth int)
 	var a []*Node
 	depth := 0
