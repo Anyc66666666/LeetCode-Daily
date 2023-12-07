@@ -1,7 +1,5 @@
 package leetcode
 
-import "container/list"
-
 //给定一个二叉树的 根节点 root，请找出该二叉树的 最底层 最左边 节点的值。
 //
 // 假设二叉树中至少有一个节点。
@@ -47,27 +45,46 @@ import "container/list"
  *     Right *TreeNode
  * }
  */
-func findBottomLeftValue(root *TreeNode) int {
-	queue := list.New()
-	var gradation int
-	queue.PushBack(root)
-	for queue.Len() > 0 {
-		length := queue.Len()
-		for i := 0; i < length; i++ {
-			node := queue.Remove(queue.Front()).(*TreeNode)
-			if i == 0 {
-				gradation = node.Val
-			}
-			if node.Left != nil {
-				queue.PushBack(node.Left)
-			}
-			if node.Right != nil {
-				queue.PushBack(node.Right)
-			}
-		}
-	}
-	return gradation
 
+//	type TreeNode struct {
+//		    Val int
+//		    Left *TreeNode
+//		    Right *TreeNode
+//		}
+func findBottomLeftValue(root *TreeNode) int {
+	//queue:=list.New()
+	//var gradation int
+	//queue.PushBack(root)
+	//for queue.Len()>0{
+	//	length:=queue.Len()
+	//	for i:=0;i<length;i++{
+	//		node:=queue.Remove(queue.Front()).(*TreeNode)
+	//		if i==0{gradation=node.Val}
+	//		if node.Left!=nil{
+	//			queue.PushBack(node.Left)
+	//		}
+	//		if node.Right!=nil{
+	//			queue.PushBack(node.Right)
+	//		}
+	//	}
+	//}
+	//return gradation
+	depth := 0
+	var dfs func(node *TreeNode, depth int)
+	var a [][]int
+	dfs = func(node *TreeNode, depth int) {
+		if node == nil {
+			return
+		}
+		if len(a) == depth {
+			a = append(a, []int{})
+		}
+		a[depth] = append(a[depth], node.Val)
+		dfs(node.Left, depth+1)
+		dfs(node.Right, depth+1)
+	}
+	dfs(root, depth)
+	return a[len(a)-1][0]
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
